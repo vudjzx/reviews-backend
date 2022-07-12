@@ -10,8 +10,6 @@ const server = new ApolloServer({
   resolvers,
   cors: {
     origin: [process.env.FRONTEND_URL],
-    // origin: "*",
-    // allow all origins for testing
     credentials: true,
   },
 });
