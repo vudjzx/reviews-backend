@@ -2,7 +2,7 @@ import Review from "../models/Review.js";
 
 const resolvers = {
   Query: {
-    reviews: async () => await Review.find(),
+    reviews: async () => await Review.find().sort({ createdAt: -1 }),
     review: async (_, { id }) => await Review.findById(id),
   },
   Mutation: {
