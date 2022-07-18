@@ -2,15 +2,30 @@ import mongoose from "mongoose";
 import { ApolloServer } from "apollo-server";
 import * as dotenv from "dotenv";
 import typeDefs from "./graphql/typeDefs.js";
-import resolvers from "./graphql/resolvers.js";
+import resolvers from "./graphql/resolvers/index.js";
+import jwt from "jsonwebtoken";
+
 dotenv.config();
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  cors: {
-    origin: [process.env.FRONTEND_URL],
-    credentials: true,
+  // cors: {
+  //   origin: [process.env.FRONTEND_URL],
+  //   credentials: true,
+  // },
+  context: ({ req }) => {
+    const ctx = {};
+    try {
+      if (req.headers["x-token"]) {
+        const token = jwt.verify(
+          req.headers["x-token"],
+          process.env.JWT_SECRET || ""
+        );
+        ctx.token = token;
+      }
+    } catch (err) {}
+    return ctx;
   },
 });
 
