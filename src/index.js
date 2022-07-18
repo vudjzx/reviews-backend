@@ -10,10 +10,10 @@ dotenv.config();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  // cors: {
-  //   origin: [process.env.FRONTEND_URL],
-  //   credentials: true,
-  // },
+  cors: {
+    origin: [process.env.FRONTEND_URL],
+    credentials: true,
+  },
   context: ({ req }) => {
     const ctx = {};
     try {
